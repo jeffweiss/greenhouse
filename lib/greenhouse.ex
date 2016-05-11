@@ -61,7 +61,7 @@ defmodule Greenhouse do
   end
 
   def json_request(method, url, body \\ "", headers \\ [], options \\ []) do
-    raw_request(method, url, JSX.encode!(body), headers, options)
+    raw_request(method, url, body, headers, options)
   end
 
   def raw_request(method, url, body \\ "", headers \\ [], options \\ []) do
@@ -69,7 +69,7 @@ defmodule Greenhouse do
   end
 
   def request_stream(method, url, auth, body \\ "", override \\ nil) do
-    request_with_pagination(method, url, auth, JSX.encode!(body))
+    request_with_pagination(method, url, auth, body)
     |> stream_if_needed(override)
   end
   defp stream_if_needed(result = {status_code, _}, _) when is_number(status_code), do: result
@@ -107,7 +107,7 @@ defmodule Greenhouse do
   end
 
   def request_with_pagination(method, url, auth, body \\ "") do
-    resp = request!(method, url, JSX.encode!(body), authorization_header(auth, @user_agent), extra_options)
+    resp = request!(method, url, body, authorization_header(auth, @user_agent), extra_options)
     case process_response(resp) do
       x when is_tuple(x) -> x
       _ -> pagination_tuple(resp, auth)

@@ -2,7 +2,7 @@ defmodule Greenhouse.Mixfile do
   use Mix.Project
 
   @description """
-  Elixir library for access the Greenhouse API
+  Elixir library for access the Greenhouse Harvest API
   """
 
   def project do

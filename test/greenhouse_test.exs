@@ -1,5 +1,6 @@
 defmodule GreenhouseTest do
   use ExUnit.Case
+  import Greenhouse
   doctest Greenhouse
 
   test "the truth" do

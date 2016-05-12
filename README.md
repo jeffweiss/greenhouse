@@ -1,6 +1,7 @@
 # Greenhouse
 
-**TODO: Add description**
+Elixir library for access [Greenhouse.io Harvest
+API](https://developers.greenhouse.io).
 
 ## Installation
 

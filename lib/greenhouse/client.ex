@@ -1,5 +1,5 @@
 defmodule Greenhouse.Client do
-  defstruct auth: nil, endpoint: "https://api.greenhouse.io"
+  defstruct auth: nil, endpoint: "https://harvest.greenhouse.io/v1/"
 
   @type auth :: %{user: binary, password: binary} | %{access_token: binary}
   @type t :: %__MODULE__{auth: auth, endpoint: binary}

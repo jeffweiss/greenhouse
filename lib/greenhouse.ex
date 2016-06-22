@@ -188,7 +188,8 @@ defmodule Greenhouse do
   end
 
   def authorization_header(%{access_token: token}, headers) do
-    headers ++ [{"Authorization", "token #{token}"}]
+    userpass = token <> ":"
+    headers ++ [{"Authorization", "Basic #{:base64.encode(userpass)}"}]
   end
 
   def authorization_header(_, headers), do: headers

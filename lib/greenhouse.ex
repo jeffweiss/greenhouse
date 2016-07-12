@@ -72,6 +72,34 @@ defmodule Greenhouse do
     request_with_pagination(method, url, auth, body)
     |> stream_if_needed(override)
   end
+
+  @resources [
+    applications: "/applications/",
+    candidates: "/candidates/",
+    departments: "/departments/",
+    email_templates: "/email_templates/",
+    job_posts: "/job_posts/",
+    jobs: "/jobs/",
+    offers: "/offers/",
+    offices: "/offices/",
+    rejection_reasons: "/rejection_reasons/",
+    scorecards: "/scorecards/",
+    sources: "/sources/",
+    users: "/users/"
+  ]
+
+  for {resource, path} <- @resources do
+    def unquote(resource)(%Greenhouse.Client{} = client, params \\ [], options \\ []) do
+      unquote(path)
+      |> get(client, params, options)
+    end
+
+    def get_by_id(unquote(resource), id, %Greenhouse.Client{} = client) do
+      unquote(path) <> Integer.to_string(id)
+      |> get(client)
+    end
+  end
+
   defp stream_if_needed(result = {status_code, _}, _) when is_number(status_code), do: result
   defp stream_if_needed({body, nil, _}, _), do: body
   defp stream_if_needed({body, _, _}, :one_page), do: body
@@ -188,7 +216,8 @@ defmodule Greenhouse do
   end
 
   def authorization_header(%{access_token: token}, headers) do
-    headers ++ [{"Authorization", "token #{token}"}]
+    userpass = token <> ":"
+    headers ++ [{"Authorization", "Basic #{:base64.encode(userpass)}"}]
   end
 
   def authorization_header(_, headers), do: headers
